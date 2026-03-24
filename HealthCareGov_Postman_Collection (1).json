@@ -1,0 +1,698 @@
+{
+  "info": {
+    "name": "HealthCareGov API",
+    "description": "Complete Postman collection for HealthCareGov - Public Healthcare & Hospital Management System. Base URL: http://localhost:9090. Authenticate via POST /api/users/login and set the returned token as the {{token}} variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:9090" },
+    { "key": "token", "value": "PASTE_JWT_TOKEN_HERE" }
+  ],
+  "item": [
+
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/users/login", "host": ["{{baseUrl}}"], "path": ["api","users","login"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"karthik09@gmail.com\",\n  \"password\": \"karthik098\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "2. User Management",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","users"]
+            }
+          }
+        },
+        {
+          "name": "Get Users by Status",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/users?status=Pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","users"],
+              "query": [{ "key": "status", "value": "Pending" }]
+            }
+          }
+        },
+        {
+          "name": "Update User Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/1/status?adminId=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","users","1","status"],
+              "query": [{ "key": "adminId", "value": "3" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Active\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "3. Patient Management",
+      "item": [
+        {
+          "name": "Register Patient (Public)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/api/patients/register", "host": ["{{baseUrl}}"], "path": ["api","patients","register"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"dob\": \"1995-06-15\",\n  \"gender\": \"Male\",\n  \"address\": \"123 Main Street, Chennai\",\n  \"contactInfo\": \"9876543210\",\n  \"email\": \"johndoe@example.com\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Patient Profile",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/patients/1", "host": ["{{baseUrl}}"], "path": ["api","patients","1"] }
+          }
+        },
+        {
+          "name": "Update Patient Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/patients/1", "host": ["{{baseUrl}}"], "path": ["api","patients","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"address\": \"456 New Street, Mumbai\",\n  \"contactInfo\": \"9876543211\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Upload Patient Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/patients/documents", "host": ["{{baseUrl}}"], "path": ["api","patients","documents"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientID\": 1,\n  \"docType\": \"IDProof\",\n  \"fileURI\": \"https://storage.example.com/docs/idproof.pdf\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Medical History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/patients/1/history", "host": ["{{baseUrl}}"], "path": ["api","patients","1","history"] }
+          }
+        },
+        {
+          "name": "Get Medical Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/patients/1/summary", "host": ["{{baseUrl}}"], "path": ["api","patients","1","summary"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "4. Hospital Management",
+      "item": [
+        {
+          "name": "Create Hospital",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/hospitals", "host": ["{{baseUrl}}"], "path": ["api","hospitals"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Apollo Hospital\",\n  \"location\": \"Chennai\",\n  \"capacity\": 500,\n  \"status\": \"Active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Hospitals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/hospitals", "host": ["{{baseUrl}}"], "path": ["api","hospitals"] }
+          }
+        },
+        {
+          "name": "Get Hospital by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/hospitals/1", "host": ["{{baseUrl}}"], "path": ["api","hospitals","1"] }
+          }
+        },
+        {
+          "name": "Search Hospitals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/hospitals/search?query=Chennai",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","hospitals","search"],
+              "query": [{ "key": "query", "value": "Chennai" }]
+            }
+          }
+        },
+        {
+          "name": "Update Hospital",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/hospitals/1", "host": ["{{baseUrl}}"], "path": ["api","hospitals","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Apollo Hospital\",\n  \"location\": \"Chennai\",\n  \"capacity\": 600,\n  \"status\": \"Active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Hospital",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/hospitals/1", "host": ["{{baseUrl}}"], "path": ["api","hospitals","1"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "5. Resource Management",
+      "item": [
+        {
+          "name": "Add Resource",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/resources", "host": ["{{baseUrl}}"], "path": ["api","resources"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospitalID\": 1,\n  \"type\": \"Beds\",\n  \"quantity\": 100,\n  \"status\": \"Available\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Resources",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/resources", "host": ["{{baseUrl}}"], "path": ["api","resources"] }
+          }
+        },
+        {
+          "name": "Get Resources by Hospital",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/resources?hospitalId=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","resources"],
+              "query": [{ "key": "hospitalId", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Get Resource by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/resources/1", "host": ["{{baseUrl}}"], "path": ["api","resources","1"] }
+          }
+        },
+        {
+          "name": "Update Resource",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/resources/1", "host": ["{{baseUrl}}"], "path": ["api","resources","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospitalID\": 1,\n  \"type\": \"Beds\",\n  \"quantity\": 150,\n  \"status\": \"Available\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Resource",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/resources/1", "host": ["{{baseUrl}}"], "path": ["api","resources","1"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "6. Analytics",
+      "item": [
+        {
+          "name": "Hospital Analytics Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/analytics/hospitals", "host": ["{{baseUrl}}"], "path": ["api","analytics","hospitals"] }
+          }
+        },
+        {
+          "name": "Hospital Capacity Report",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/analytics/reports/hospital-capacity", "host": ["{{baseUrl}}"], "path": ["api","analytics","reports","hospital-capacity"] }
+          }
+        },
+        {
+          "name": "Resource Availability Report",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/analytics/reports/resource-availability", "host": ["{{baseUrl}}"], "path": ["api","analytics","reports","resource-availability"] }
+          }
+        },
+        {
+          "name": "Resource Distribution Report",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/analytics/reports/resource-distribution", "host": ["{{baseUrl}}"], "path": ["api","analytics","reports","resource-distribution"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "7. Schedule Management",
+      "item": [
+        {
+          "name": "Create Schedule Slot",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/schedules", "host": ["{{baseUrl}}"], "path": ["api","schedules"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": 1,\n  \"hospitalId\": 1,\n  \"availableDate\": \"2025-08-01\",\n  \"timeSlot\": \"10:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Schedule Slot",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/schedules/1", "host": ["{{baseUrl}}"], "path": ["api","schedules","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": 1,\n  \"hospitalId\": 1,\n  \"availableDate\": \"2025-08-02\",\n  \"timeSlot\": \"11:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Doctor's Schedule",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/schedules/doctor/1", "host": ["{{baseUrl}}"], "path": ["api","schedules","doctor","1"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "8. Appointment Management",
+      "item": [
+        {
+          "name": "Book Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/appointments/book", "host": ["{{baseUrl}}"], "path": ["api","appointments","book"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientID\": 1,\n  \"doctorID\": 1,\n  \"hospitalID\": 1,\n  \"date\": \"2025-08-01\",\n  \"time\": \"10:00:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/appointments/cancel", "host": ["{{baseUrl}}"], "path": ["api","appointments","cancel"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"appointmentID\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Appointments by Doctor",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/appointments/doctor/1", "host": ["{{baseUrl}}"], "path": ["api","appointments","doctor","1"] }
+          }
+        },
+        {
+          "name": "Get All Appointments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/appointments", "host": ["{{baseUrl}}"], "path": ["api","appointments"] }
+          }
+        },
+        {
+          "name": "Reassign Appointment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/1/reassign?adminId=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","appointments","1","reassign"],
+              "query": [{ "key": "adminId", "value": "3" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"newDoctorId\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Patient Check-In",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/appointments/1/checkin?adminId=3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","appointments","1","checkin"],
+              "query": [{ "key": "adminId", "value": "3" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "9. Treatment Management",
+      "item": [
+        {
+          "name": "Record Treatment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/treatments", "host": ["{{baseUrl}}"], "path": ["api","treatments"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": 1,\n  \"doctorId\": 1,\n  \"diagnosis\": \"Viral Fever\",\n  \"prescription\": \"Paracetamol 500mg\",\n  \"treatmentNotes\": \"Rest for 3 days, drink fluids\",\n  \"status\": \"Active\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Patient Medical Record",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/treatments/patients/1", "host": ["{{baseUrl}}"], "path": ["api","treatments","patients","1"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"updaterId\": 1,\n  \"name\": \"John Doe\",\n  \"contactInfo\": \"9876543210\",\n  \"status\": \"Active\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "10. Compliance Management",
+      "item": [
+        {
+          "name": "Create Compliance Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/compliance?officerId=7",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","compliance"],
+              "query": [{ "key": "officerId", "value": "7" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityId\": 1,\n  \"type\": \"Appointment\",\n  \"result\": \"Pass\",\n  \"notes\": \"All protocols followed\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Compliance Record",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/compliance/1?officerId=7",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","compliance","1"],
+              "query": [{ "key": "officerId", "value": "7" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityId\": 1,\n  \"type\": \"Appointment\",\n  \"result\": \"Fail\",\n  \"notes\": \"Missing documentation\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Search Compliance Records",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/compliance?type=Appointment&result=Pass",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","compliance"],
+              "query": [
+                { "key": "type", "value": "Appointment" },
+                { "key": "result", "value": "Pass" },
+                { "key": "entityId", "value": "", "disabled": true },
+                { "key": "startDate", "value": "", "disabled": true },
+                { "key": "endDate", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/compliance/audit-logs", "host": ["{{baseUrl}}"], "path": ["api","compliance","audit-logs"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "11. Audit Management",
+      "item": [
+        {
+          "name": "Create Audit",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/audits", "host": ["{{baseUrl}}"], "path": ["api","audits"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"officerId\": 9,\n  \"scope\": \"Hospital compliance review Q1\",\n  \"findings\": \"Minor documentation gaps\",\n  \"status\": \"Scheduled\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Audit",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/audits/1?requesterId=9",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","audits","1"],
+              "query": [{ "key": "requesterId", "value": "9" }]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"officerId\": 9,\n  \"scope\": \"Hospital compliance review Q1\",\n  \"findings\": \"All records verified\",\n  \"status\": \"In-Progress\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Audits",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/audits", "host": ["{{baseUrl}}"], "path": ["api","audits"] }
+          }
+        },
+        {
+          "name": "Get Audits by Status",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/audits?status=Scheduled",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","audits"],
+              "query": [{ "key": "status", "value": "Scheduled" }]
+            }
+          }
+        },
+        {
+          "name": "Get Audit by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/audits/1", "host": ["{{baseUrl}}"], "path": ["api","audits","1"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "12. Notifications",
+      "item": [
+        {
+          "name": "Get Notifications for User",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/api/notifications/1", "host": ["{{baseUrl}}"], "path": ["api","notifications","1"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "13. Program Management",
+      "item": [
+        {
+          "name": "Program Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/api/program/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api","program","dashboard"],
+              "query": [
+                { "key": "startDate", "value": "2025-01-01", "disabled": true },
+                { "key": "endDate", "value": "2025-12-31", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generate Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/api/program/reports", "host": ["{{baseUrl}}"], "path": ["api","program","reports"] },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospitalId\": 1,\n  \"scope\": \"Appointment\"\n}"
+            }
+          }
+        }
+      ]
+    }
+
+  ]
+}
